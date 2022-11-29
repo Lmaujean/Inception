@@ -1,11 +1,22 @@
 FROM debian:buster
 
-RUN apt-get update -y && apt-get upgrade -y && apt-get install mariadb-server -y
-RUN apt-get install mariadb-client -y
+RUN apt update -y && apt upgrade -y
+
+
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get install mariadb-server mariadb-client -y
+
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY conf/auto_config.sh /entrypoint.sh
-#RUN service mysql start
+COPY conf/auto_config.sh /init.sh
+RUN chmod +x /init.sh
+
+ARG SQL_DATABASE
+ARG SQL_USER
+ARG SQL_PASSWORD
+ARG SQL_ROOT_PASSWORD
+RUN ["bash", "-c", "/init.sh"]
+
+
 EXPOSE 3306
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["service", "mysql", "start"]
-#CMD tail -f
+
+CMD [ "mysqld" ]

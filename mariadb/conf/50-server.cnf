@@ -23,9 +23,10 @@ tmpdir                  = /tmp
 lc-messages-dir         = /usr/share/mysql
 #skip-external-locking
 
+
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
-bind-address            = localhost
+bind-address            = 0.0.0.0
 
 #
 # * Fine Tuning
@@ -118,6 +119,7 @@ collation-server      = utf8mb4_general_ci
 #
 # Also available for other users if required.
 # See https://mariadb.com/kb/en/unix_socket-authentication-plugin/
+
 
 # this is only for embedded server
 [embedded]
